@@ -10,37 +10,53 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  Widget _buildRecordItem(int index) {
+    if (_counter == 0) {
+      return const ListTile(
+        title: Text('No records have been added yet'),
+      );
+    }
+    return ListTile(
+      title: Text('Record $index'),
+      trailing: IconButton(
+        icon: const Icon(Icons.delete),
+        onPressed: () {
+          setState(() {
+            _counter--;
+          });
+        },
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Screen'), // Adjust the title if you want
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Column(
+        children: [
+          const SizedBox(height: 8), // Some spacing below the AppBar
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Uploaded records',
+                style: const TextStyle(fontSize: 20),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          Expanded(
+            child: _counter == 0
+            ? const Center(
+              child: Text('No records have been added yet')
+              )
+            :ListView.builder(
+              itemCount: _counter,
+              itemBuilder: (_, index) => _buildRecordItem(index),
             ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+          ),
+          const SizedBox(height: 8), // Optional spacing at the bottom
+        ],
       ),
     );
   }

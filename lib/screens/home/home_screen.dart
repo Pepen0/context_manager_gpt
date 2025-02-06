@@ -5,7 +5,9 @@ import 'package:file_picker/file_picker.dart';
 
 import '/screens/home/components/record_list.dart';
 import '/screens/home/components/directory_list.dart';
+
 import '/screens/home/components/add_context_button.dart';
+import '/screens/home/components/add_directory_button.dart';
 
 import 'package:context_manager_gpt/models/file_record.dart';
 import 'package:context_manager_gpt/models/directory_record.dart';
@@ -145,26 +147,13 @@ Widget build(BuildContext context) {
           ),
         ),
 
-        // 3) A row with two buttons: Add File, Add Directory
+        // 3) A row with one button: Add File
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               AddContextButton(onPressed: _pickFile),
-              ElevatedButton(
-                onPressed: _pickDirectory,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF007AFF),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-                ),
-                child: const Text('Add Directory',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
             ],
           ),
         ),
@@ -193,6 +182,14 @@ Widget build(BuildContext context) {
               });
             },
           ),
+        ),
+
+        // 6) Add Directory button
+        Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: AddDirectoryButton(
+              onPressed: _pickDirectory, // same callback as before
+            ),
         ),
       ],
     ),

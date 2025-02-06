@@ -28,7 +28,7 @@ class AddContextButton extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           const Text(
-            'Add more files', 
+            'Add files', 
             style: TextStyle(
               color: Colors.white, 
               fontSize: 16,

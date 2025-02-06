@@ -83,18 +83,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _pickDirectory() async {
-    // Only works on platforms that support directory picking (Android, Desktop).
     final selectedDirectory = await FilePicker.platform.getDirectoryPath();
     
-    // The user either canceled or platform doesn't support directory picking
     if (selectedDirectory == null) return;
 
-    // Extract the folder name (last segment of the path)
     final dirName = selectedDirectory.split('/').last;
 
-    // Build a text-based tree of all files/folders inside
-    // This requires "dart:io" methods. Not available on Web.
-    // Make sure you have: import 'dart:io';
     final treeString = _buildDirectoryTree(selectedDirectory);
 
     final record = DirectoryRecord(

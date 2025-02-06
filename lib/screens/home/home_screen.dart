@@ -29,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       body: Column(
         children: [
           const SizedBox(height: 8),
@@ -43,16 +44,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Expanded(
-            // Replace the old logic with our new RecordList widget
             child: RecordList(
               count: _counter,
               onDeleteRecord: _removeRecord,
             ),
           ),
           const SizedBox(height: 8),
-          // Replace the inline ElevatedButton with the AddContextButton widget
           AddContextButton(
-            onPressed: _addRecord, // callback to increment the counter
+            onPressed: _addRecord,
           ),
         ],
       ),

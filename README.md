@@ -1,16 +1,28 @@
-# context_manager_gpt
 
-A new Flutter project.
 
-## Getting Started
+**README**
+===============
 
-This project is a starting point for a Flutter application.
+**Chrome Extension Build Command**
+---------------------------------
 
-A few resources to get you started if this is your first Flutter project:
+The following command is used to build the Chrome extension:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```bash
+flutter build web \
+  --release \
+  --web-renderer canvaskit \
+  --csp \
+  --base-href "/" \
+  --pwa-strategy=none
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**Breakdown of the Command**
+-----------------------------
+
+* `flutter build web`: Builds the Flutter web application.
+* `--release`: Builds the application in release mode, which optimizes the code for production.
+* `--web-renderer canvaskit`: Specifies the web renderer to use. In this case, we're using CanvasKit, which is a high-performance rendering engine.
+* `--csp`: Enables Content Security Policy (CSP) to define which sources of content are allowed to be executed within the web page.
+* `--base-href "/"`: Sets the base URL for the application. In this case, we're setting it to the root URL (`"/"`) to ensure that the application is served from the correct location.
+* `--pwa-strategy=none`: Disables Progressive Web App (PWA) functionality, as we're building a Chrome extension and not a PWA.

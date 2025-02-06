@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '/screens/home/components/record_list.dart';
 import '/screens/home/components/add_context_button.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:context_manager_gpt/models/file_record.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,48 +12,68 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _counter = 0;
+  final List<FileRecord> _files = [];
 
-  void _addRecord() {
-    setState(() {
-      _counter++;
-    });
+  Future<void> _pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null && result.files.isNotEmpty) {
+      final pickedFile = result.files.first;
+      final name = pickedFile.name;
+      final path = pickedFile.path ?? 'Unknown';
+      final extension = _extensionFromName(name);
+
+      final record = FileRecord(
+        name: name,
+        path: path,
+        extension: extension,
+      );
+
+      setState(() {
+        _files.add(record);
+      });
+    }
   }
 
-  void _removeRecord() {
+  String _extensionFromName(String fileName) {
+    final dotIndex = fileName.lastIndexOf('.');
+    if (dotIndex == -1) return '';
+    return fileName.substring(dotIndex);
+  }
+
+  void _deleteFileAt(int index) {
     setState(() {
-      if (_counter > 0) {
-        _counter--;
-      }
+      _files.removeAt(index);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[200],
       body: Column(
         children: [
-          const SizedBox(height: 8),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Uploaded records',
-                style: const TextStyle(fontSize: 20),
-              ),
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Text(
+                  'Related Records',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+              ],
             ),
           ),
           Expanded(
             child: RecordList(
-              count: _counter,
-              onDeleteRecord: _removeRecord,
+              files: _files,
+              onDeleteIndex: (index) => _deleteFileAt(index),
             ),
           ),
-          const SizedBox(height: 8),
-          AddContextButton(
-            onPressed: _addRecord,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: AddContextButton(
+              onPressed: _pickFile,
+            ),
           ),
         ],
       ),

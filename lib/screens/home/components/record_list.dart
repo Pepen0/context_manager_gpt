@@ -23,6 +23,11 @@ class RecordList extends StatelessWidget {
       itemCount: files.length,
       itemBuilder: (context, index) {
         final record = files[index];
+        
+        const maxLength = 100;
+        final String snippet = (record.content.length > maxLength)
+            ? record.content.substring(0, maxLength) + '...'
+            : record.content;
 
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -38,20 +43,16 @@ class RecordList extends StatelessWidget {
             ],
           ),
           child: ListTile(
-            // 1) Circular avatar for file extension
             leading: CircleAvatar(
               backgroundColor: Colors.grey[200],
               child: Text(
-                record.extension, 
+                record.extension,
                 style: const TextStyle(color: Colors.black),
               ),
             ),
-
-            // 2) Title & subtitle
             title: Text(record.name),
-            subtitle: Text(record.path),
-            
-            // 3) Delete button
+            // Show the text content (or snippet) as the subtitle
+            subtitle: Text(snippet),
             trailing: IconButton(
               icon: const Icon(Icons.delete, color: Colors.blue),
               onPressed: () => onDeleteIndex(index),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
+
 import '/screens/home/components/record_list.dart';
 import '/screens/home/components/add_context_button.dart';
-import 'package:file_picker/file_picker.dart';
+
 import 'package:context_manager_gpt/models/file_record.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,14 +20,25 @@ class _HomeScreenState extends State<HomeScreen> {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null && result.files.isNotEmpty) {
       final pickedFile = result.files.first;
-      final name = pickedFile.name;
-      final path = pickedFile.path ?? 'Unknown';
-      final extension = _extensionFromName(name);
+
+      final name = pickedFile.name;            
+      final extension = _extensionFromName(name); 
+
+      String content = '';
+      if (pickedFile.bytes != null) {
+        try {
+          content = String.fromCharCodes(pickedFile.bytes!);
+        } catch (e) {
+          content = 'Error reading file as text: $e';
+        }
+      } else {
+        content = 'No file content available.';
+      }
 
       final record = FileRecord(
         name: name,
-        path: path,
         extension: extension,
+        content: content,
       );
 
       setState(() {

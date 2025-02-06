@@ -24,7 +24,7 @@ class RecordList extends StatelessWidget {
       itemBuilder: (context, index) {
         final record = files[index];
         
-        const maxLength = 100;
+        const maxLength = 30;
         final String snippet = (record.content.length > maxLength)
             ? record.content.substring(0, maxLength) + '...'
             : record.content;
